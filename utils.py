@@ -1,16 +1,15 @@
 import json
 from typing import Any
-
 import requests
 import psycopg2
 
 
 def get_companies():
     """
-    Получает имя компаний и их ID из файла companies_id.json,
+    Получает имя компаний и их ID из файла vacancies.json,
     :return: список словарей с информацией о компаниях
     """
-    with open('companies_id.json', 'r', encoding='utf-8') as f:
+    with open('vacancies.json', 'r', encoding='utf-8') as f:
         companies_data = json.load(f)[0]
 
     data = []

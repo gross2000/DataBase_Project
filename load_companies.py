@@ -25,6 +25,8 @@ def load_vacancies():
         if data.status_code == 200:
             json_data = data.json()
             for item in json_data['items']:
+                company_id = item['id']
+                company_url = f"https://hh.ru/employer/{company_id}"
                 job_title = item['name']
                 link_to_vacancy = item['alternate_url']
                 salary = item['salary']
@@ -35,6 +37,8 @@ def load_vacancies():
                 requirement = item['snippet']['requirement']
 
                 vacancies.append({
+                    "company_id": company_id,
+                    "company_url": company_url,
                     "company": company,
                     "job_title": job_title,
                     "link_to_vacancy": link_to_vacancy,
@@ -46,12 +50,3 @@ def load_vacancies():
         else:
             print(f"Ошибка {data.status_code}")
     return vacancies
-
-
-if __name__ == "__main__":
-    vacancies = load_vacancies()
-    for vacancy in vacancies:
-        print(vacancy)
-        filename = 'vacancy_json.json'
-        with open(filename, 'w', encoding='utf-8') as outfile:
-            json.dump(vacancies, outfile, ensure_ascii=False, indent=4)

@@ -1,5 +1,5 @@
 import psycopg2
-
+import load_companies
 from config import config
 from utils import get_companies, get_vacancies, create_db, save_data_to_db
 from db_manager import DBManager

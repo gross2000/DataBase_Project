@@ -2,6 +2,15 @@ import json
 from typing import Any
 import requests
 import psycopg2
+from load_companies import load_vacancies
+
+
+vacancies = load_vacancies()
+for vacancy in vacancies:
+    print(vacancy)
+    filename = 'vacancies.json'
+    with open(filename, 'w', encoding='utf-8') as outfile:
+        json.dump(vacancies, outfile, ensure_ascii=False, indent=4)
 
 
 def get_companies():
@@ -10,15 +19,13 @@ def get_companies():
     :return: список словарей с информацией о компаниях
     """
     with open('vacancies.json', 'r', encoding='utf-8') as f:
-        companies_data = json.load(f)[0]
+         companies_data = json.load(f)[0]
 
     data = []
 
     for company_name, company_id in companies_data.items():
-        company_url = f"https://hh.ru/employer/{company_id}"
         company_info = {'company_id': company_id, 'company_name': company_name, 'company_url': company_url}
         data.append(company_info)
-
     return data
 
 

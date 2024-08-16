@@ -1,2 +1,2 @@
 # DataBase_Project
-Сопряжение информации из hh.ru c PostgresDB
+Загрузка информации о вакансиях из hh.ru PostgresDB

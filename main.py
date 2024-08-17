@@ -1,5 +1,4 @@
 import psycopg2
-import load_companies
 from config import config
 from utils import get_companies, get_vacancies, create_db, save_data_to_db
 from db_manager import DBManager
@@ -7,7 +6,7 @@ from db_manager import DBManager
 
 def main():
     companies_data = get_companies()
-    vacancies_data = get_vacancies(companies_data)
+    vacancies_data = get_vacancies()
     params = config()
 
     create_db('vacancies_hh', params)

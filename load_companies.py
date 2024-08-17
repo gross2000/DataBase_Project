@@ -1,8 +1,17 @@
-import json
 import requests
 
 
 def load_vacancies():
+    company_id = None
+    company_url = None
+    company = "Неизвестная компания"
+    job_title = "Неизвестная вакансия"
+    link_to_vacancy = None
+    salary_from = 0  # Значение по умолчанию
+    salary_to = 0  # Значение по умолчанию
+    description = "Нет описания"
+    requirement = "Нет требований"
+
     companies = [
         "VK",
         "Яндекс",
@@ -13,8 +22,7 @@ def load_vacancies():
         "ASTON",
         "Sber",
         "Альфа-Банк",
-        "ТрансТехСервис",
-    ]
+        "ТрансТехСервис"]
     vacancies = []
 
     for company in companies:
@@ -31,8 +39,8 @@ def load_vacancies():
                 link_to_vacancy = item['alternate_url']
                 salary = item['salary']
                 if salary:
-                    salary_from = salary.get('from')
-                    salary_to = salary.get('to')
+                    salary_from = salary.get('from', 0)
+                    salary_to = salary.get('to', 0)
                 description = item['snippet']['responsibility']
                 requirement = item['snippet']['requirement']
 

@@ -4,7 +4,6 @@ import requests
 import psycopg2
 from load_companies import load_vacancies
 
-
 vacancies = load_vacancies()
 for vacancy in vacancies:
     print(vacancy)
@@ -19,32 +18,27 @@ def get_companies():
     :return: список словарей с информацией о компаниях
     """
     with open('vacancies.json', 'r', encoding='utf-8') as f:
-         companies_data = json.load(f)[0]
-
-    data = []
-
-    for company_name, company_id in companies_data.items():
-        company_info = {'company_id': company_id, 'company_name': company_name, 'company_url': company_url}
-        data.append(company_info)
-    return data
+        data = json.load(f)
+        companies_info = [{"company_id": item.get("company_id"),
+                           "company_url": item.get("company_url"),
+                           "company": item.get("company")} for item in data]
+    return companies_info
 
 
-def get_vacancies(data):
+def get_vacancies():
     """
-    Получает информацию о вакансиях для компаний из списка data
-    :param data: список словарей с информацией о компаниях
-    :return: список словарей с информацией о вакансиях для каждой компании
+    Получает из файла vacancies.json,
+    :return: список словарей с информацией
+    о вакансиях для каждой компании
     """
-    vacancies_info = []
-    for company_data in data:
-        company_id = company_data['company_id']
-        url = f"https://api.hh.ru/vacancies?employer_id={company_id}"
-        response = requests.get(url)
-        if response.status_code == 200:
-            vacancies = response.json()['items']
-            vacancies_info.extend(vacancies)
-        else:
-            print(f"Ошибка при запросе к API для компании {company_data['company_name']}: {response.status_code}")
+    with open('vacancies.json', 'r', encoding='utf-8') as f:
+        data = json.load(f)
+        vacancies_info = [{"job_title": item.get("job_title"),
+                           "link_to_vacancy": item.get("link_to_vacancy"),
+                           "salary_from": item.get("salary_from",0),
+                           "salary_to": item.get("salary_to",0),
+                           "description": item.get("description"),
+                           "requirement": item.get("requirement")} for item in data]
     return vacancies_info
 
 
